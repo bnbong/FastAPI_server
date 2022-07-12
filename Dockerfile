@@ -6,6 +6,6 @@ COPY ./requirements.txt /code/requirements.txt
 
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
-COPY ./app /code/app
+COPY ./main.py /code/
 
-CMD ["uvicorn", "app.main:app", "--host", "serverside-testing.bnbongcodeserver.tk", "--port", "8000"]
+CMD ["uvicorn", "main:app", "--host", "serverside-testing.bnbongcodeserver.tk", "--port", "8000"]
