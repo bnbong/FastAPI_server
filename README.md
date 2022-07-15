@@ -8,4 +8,7 @@ deepened fast api practice for learning purpose
 
 # Docker setting
  > docker ps -a : check container, etc...
- 
+ > docker container start
+ > docker container stop
+ > docker container restart
+ > dockr container rm
