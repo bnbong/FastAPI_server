@@ -8,7 +8,7 @@ deepened fast api practice for learning purpose
 
 # Docker setting
  > docker ps -a : check container, etc...
- > docker container start
+ > docker run --hostname=serverside-testing.bnbongcodeserver.tk -p 8000:8000 : run at live server
  > docker container stop
  > docker container restart
  > dockr container rm
