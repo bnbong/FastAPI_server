@@ -1,0 +1,27 @@
+version: '3.3' #docker-compose version 
+services: #containers in the network 
+  app: 
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8000:8000
+    
+  db: 
+    image: "postgres" 
+    container_name: "MyPostgreSQL" 
+    restart: always 
+    ports:
+     - "5432:5432" 
+    environment:
+      POSTGRES_USER: 'postgres' 
+      POSTGRES_PASSWORD: 'nurabong88' 
+      POSTGRES_DATABASE: 'fastapiserverpostgresqldb' 
+      POSTGRES_HOST: 'serverside-testing.bnbongcodeserver.tk' 
+      POSTGRES_PORT: '5432' 
+    volumes: # this command will create database as described in init file 
+      # - .:/docker-entrypoint-initdb.d/
+      - postgres_data:/var/lib/postgresql 
+       
+volumes:
+ postgres_data:

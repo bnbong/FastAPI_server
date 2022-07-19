@@ -1,11 +1,11 @@
 FROM python:3.8
 
-WORKDIR /code
+WORKDIR /app
 
 COPY ./requirements.txt /code/requirements.txt
 
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
-COPY ./main.py /code/
+COPY ./app /app
 
 CMD ["uvicorn", "main:app", "--host", "serverside-testing.bnbongcodeserver.tk", "--port", "8000"]

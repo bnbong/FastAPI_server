@@ -21,3 +21,9 @@ deepened fast api practice for learning purpose
 
 # check container running log
  > docker logs <container_name>
+
+# run docker-compose
+ > docker-compose up -d 
+
+# check docker volume files
+ > docker volume ls
