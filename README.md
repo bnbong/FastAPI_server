@@ -2,7 +2,7 @@
 deepened fast api practice for learning purpose
 
 # TODO
- - connection testing with PostgreSQL
+ - 
 
 # Docker setting
  > docker ps -a : check container, etc...

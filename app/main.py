@@ -32,7 +32,3 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found.")
 
     return db_user
-
-
-# if __name__ == '__main__':
-#     uvicorn.run("main:app", "--proxy-headers", host="serverside-testing.bnbongcodeserver.tk", port=8000)
