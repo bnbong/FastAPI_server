@@ -27,3 +27,13 @@ deepened fast api practice for learning purpose
 
 # check docker volume files
  > docker volume ls
+
+# alembic migration
+ - make migration with no autogenerate
+ > alembic revision -m "<migration_name>"
+
+ - make migration automatically
+ > alembic  revision  --autogenerate  -m  "autogenerate  first  migration"
+
+ - upgrade db
+ > alembic upgrade head
