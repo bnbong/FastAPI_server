@@ -13,8 +13,10 @@ deepened fast api practice for learning purpose
 
 # make docker image & push
  > docker stop <container>
- > docker commit <container> <image_name> / docker build -t <tag> .
+ > docker build -t <tag> . / docker commit <container> <image_name>
  > docker push <remote_container>
+ ex) docker build -t bnbong/fastapi_server:build_1.0
+ ex) docker push bnbong/fastapi_server:build_1.0
 
 # delete docker image
  > docker rmi <image_name>

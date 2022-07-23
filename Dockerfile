@@ -8,4 +8,6 @@ RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 
 COPY ./app /app
 
-CMD ["alembic", "upgrade", "head", "&&", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+RUN alembic upgrade head
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
