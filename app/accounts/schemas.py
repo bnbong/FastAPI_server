@@ -15,3 +15,6 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
+
+class UserUpdate(UserCreate):
+    is_active: bool
