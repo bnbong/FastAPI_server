@@ -39,3 +39,7 @@ deepened fast api practice for learning purpose
 
  - upgrade db
  > alembic upgrade head
+
+# 참고 웹페이지
+ - routing, etc..
+ > https://velog.io/@ddhyun93/FastAPI-SQL-%EC%97%B0%EA%B2%B0%EB%B6%80%ED%84%B0-Testing%EA%B9%8C%EC%A7%80
