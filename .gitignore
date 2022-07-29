@@ -11,3 +11,6 @@ ENV/
 env.bak/
 venv.bak/
 FastAPI_server_venv/
+
+# Test Database
+test.db
