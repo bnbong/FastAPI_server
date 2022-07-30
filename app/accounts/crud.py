@@ -11,9 +11,9 @@ import os
 load_dotenv()
 
 
-def hashing_password(user: schemas.UserCreate):
+def hashing_password(unhashed_password):
     h = hashlib.sha256()
-    unhashed_password = user.password + os.getenv('SALT')
+    unhashed_password = unhashed_password + os.getenv('SALT')
     encoded_password = unhashed_password.encode()
     h.update(encoded_password)
     hashed_password = h.hexdigest()
@@ -30,7 +30,7 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.User).offset(skip).limit(limit).all()
 
 def create_user(db:Session, user: schemas.UserCreate):
-    hashed_password = hashing_password(user=user)
+    hashed_password = hashing_password(unhashed_password=user.password)
     db_user = models.User(email=user.email, hashed_password=hashed_password)
     db.add(db_user)
     db.commit()
@@ -38,21 +38,29 @@ def create_user(db:Session, user: schemas.UserCreate):
     
     return db_user
 
-def update_user(db: Session, user: schemas.UserUpdate):
+def update_user_info(db: Session, user: schemas.UserUpdate):
     # userupdate 객체 email, password, is_active
     selected_user = db.query(models.User).filter(models.User.email == user.email).first()
 
-    user_dict = {k: v for k, v in selected_user.items()}
-
-    for key, value in user_dict.items():
-        if key == 'password' and value is not None:
-            hashed_password = hashing_password(user=user)
-
-            value = hashed_password
-
-        setattr(selected_user, key, value)
+    selected_user.is_active = user.is_active
 
     db.commit()
+    db.refresh(selected_user)
 
-    return 
+    return selected_user
+
+def update_user_password(db: Session, user: schemas.UserCreate):
+    selected_user = db.query(models.User).filter(models.User.email == user.email).first()
+
+    unhashed_password = user.password
+    hashed_password = hashing_password(unhashed_password=unhashed_password)
+
+    selected_user.password = hashed_password
+
+    db.commit()
+    db.refresh(selected_user)
+
+    return selected_user
+
+
 

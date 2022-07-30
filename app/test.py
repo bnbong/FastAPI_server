@@ -16,10 +16,10 @@ import hashlib
 
 load_dotenv()
 
-SQLALCHEMY_DATABASE_URL = 'postgresql://' + \
-    os.getenv('PG_USER') + ':' + os.getenv('PG_PASSWORD') +\
-        '@' + os.getenv('PG_HOSTNAME') + ':' + os.getenv('PG_PORT') + '/' + os.getenv('PG_DBNAME')
-# SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db" 
+# SQLALCHEMY_DATABASE_URL = 'postgresql://' + \
+#     os.getenv('PG_USER') + ':' + os.getenv('PG_PASSWORD') +\
+#         '@' + os.getenv('PG_HOSTNAME') + ':' + os.getenv('PG_PORT') + '/' + os.getenv('PG_DBNAME')
+SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db" 
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -69,8 +69,23 @@ def test_read_root():
     assert 200 == response.status_code
     assert {"Hello":"World"} == response.json()
 
+def test_make_user_at_db():
+    response = client.post('/users/', json={"email":"test@testmail.com", "password":"testpw"})
+
+    print(response.status_code)
+    print(response.json())
+
 def test_db():
     response = client.get('/users/1')
 
     assert 200 == response.status_code
     assert {"email":"test@testmail.com","id":1,"is_active":True} == response.json()
+
+def test_user_info_change():
+    response = client.put('/users/1', json={"email":"test@testmail.com","is_active":False})
+
+    print(response.status_code)
+    print(response.json())
+
+def test_user_password_change():
+    pass
