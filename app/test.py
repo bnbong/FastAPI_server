@@ -69,11 +69,24 @@ def test_read_root():
     assert 200 == response.status_code
     assert {"Hello":"World"} == response.json()
 
+def test_get_all_users():
+    response = client.get('/users')
+
+    assert 200 == response.status_code
+    if response.json() != []:
+        assert [{'email': 'test@testmail.com', 'id': 1, 'is_active': True}] == response.json()
+
 def test_make_user_at_db():
+    response_check_users = client.get('/users')
     response = client.post('/users/', json={"email":"test@testmail.com", "password":"testpw"})
 
-    print(response.status_code)
-    print(response.json())
+    if response_check_users.json() == []:
+        assert 200 == response.status_code
+        assert {"email":"test@testmail.com","id":1,"is_active":True} == response.json()
+
+    else:
+        assert 400 == response.status_code
+        assert {'detail': 'Email already registered'} == response.json()
 
 def test_db():
     response = client.get('/users/1')
@@ -84,8 +97,11 @@ def test_db():
 def test_user_info_change():
     response = client.put('/users/1', json={"email":"test@testmail.com","is_active":False})
 
-    print(response.status_code)
-    print(response.json())
+    assert 200 == response.status_code
+    assert {"email":"test@testmail.com","id":1,"is_active":False} == response.json()
+
+    if response.json()["is_active"] == False:
+        response = client.put('/users/1', json={"email":"test@testmail.com","is_active":True})
 
 def test_user_password_change():
     pass
