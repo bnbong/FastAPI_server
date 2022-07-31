@@ -53,9 +53,9 @@ def update_user_password(db: Session, user: schemas.UserCreate):
     selected_user = db.query(models.User).filter(models.User.email == user.email).first()
 
     unhashed_password = user.password
-    hashed_password = hashing_password(unhashed_password=unhashed_password)
+    new_hashed_password = hashing_password(unhashed_password=unhashed_password)
 
-    selected_user.password = hashed_password
+    selected_user.hashed_password = new_hashed_password
 
     db.commit()
     db.refresh(selected_user)

@@ -21,7 +21,7 @@ load_dotenv()
 #         '@' + os.getenv('PG_HOSTNAME') + ':' + os.getenv('PG_PORT') + '/' + os.getenv('PG_DBNAME')
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db" 
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base.metadata.create_all(bind=engine)
@@ -100,8 +100,18 @@ def test_user_info_change():
     assert 200 == response.status_code
     assert {"email":"test@testmail.com","id":1,"is_active":False} == response.json()
 
+    # revert changing via test
     if response.json()["is_active"] == False:
         response = client.put('/users/1', json={"email":"test@testmail.com","is_active":True})
 
 def test_user_password_change():
-    pass
+    unchanged_password = TestingSessionLocal().query(models.User).first().hashed_password
+    response = client.put("/users/changepw/1", json={"email":"test@testmail.com","password":"newpassword"})
+
+    assert 200 == response.status_code
+    changed_password = TestingSessionLocal().query(models.User).first().hashed_password
+
+    assert unchanged_password != changed_password
+
+    # revert changing via test
+    client.put("/users/changepw/1", json={"email":"test@testmail.com","password":"testpw"})
