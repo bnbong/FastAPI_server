@@ -6,7 +6,7 @@ deepened fast api practice for learning purpose
 
 # Docker setting
  > docker ps -a : check container, etc...
- > docker run --hostname=serverside-testing.bnbongcodeserver.tk -p 8000:8000 <image_name>: run at live server
+ > docker run -d --name <container_name> --hostname=serverside-testing.bnbong.tk -p 8000:8000 <image_name>: run at live server
  > docker container stop <container_name>
  > docker container restart <container_name>
  > dockr container rm <container_name>
@@ -23,9 +23,6 @@ deepened fast api practice for learning purpose
 
 # check container running log
  > docker logs <container_name>
-
-# run docker-compose
- > docker-compose up -d 
 
 # check docker volume files
  > docker volume ls
