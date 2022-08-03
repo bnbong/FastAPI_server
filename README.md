@@ -5,7 +5,8 @@ deepened fast api practice for learning purpose
  - 
 
 # Docker setting
- > docker ps -a : check container, etc...
+ > docker ps : check container status
+ > docker ps -a : check container status including stopped container
  > docker run -d --name <container_name> --hostname=serverside-testing.bnbong.tk -p 8000:8000 <image_name>: run at live server
  > docker container stop <container_name>
  > docker container restart <container_name>
