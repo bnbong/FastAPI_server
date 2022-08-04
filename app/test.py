@@ -16,9 +16,6 @@ import hashlib
 
 load_dotenv()
 
-# SQLALCHEMY_DATABASE_URL = 'postgresql://' + \
-#     os.getenv('PG_USER') + ':' + os.getenv('PG_PASSWORD') +\
-#         '@' + os.getenv('PG_HOSTNAME') + ':' + os.getenv('PG_PORT') + '/' + os.getenv('PG_DBNAME')
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db" 
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
@@ -46,6 +43,9 @@ def hashing_text():
     hashed_text = h.hexdigest()
 
     return hashed_text
+
+def reverting_changing(client, url, json_text):
+    client.put(url, json=json_text)
 
 def test_is_dotenv_work():
     from dotenv import load_dotenv
@@ -100,9 +100,8 @@ def test_user_info_change():
     assert 200 == response.status_code
     assert {"email":"test@testmail.com","id":1,"is_active":False} == response.json()
 
-    # revert changing via test
     if response.json()["is_active"] == False:
-        response = client.put('/users/1', json={"email":"test@testmail.com","is_active":True})
+        reverting_changing(client=client, url="/users/1", json_text={"email":"test@testmail.com","is_active":True})
 
 def test_user_password_change():
     unchanged_password = TestingSessionLocal().query(models.User).first().hashed_password
@@ -113,5 +112,4 @@ def test_user_password_change():
 
     assert unchanged_password != changed_password
 
-    # revert changing via test
-    client.put("/users/changepw/1", json={"email":"test@testmail.com","password":"testpw"})
+    reverting_changing(client=client, url="/users/changepw/1", json_text={"email":"test@testmail.com","password":"testpw"})
