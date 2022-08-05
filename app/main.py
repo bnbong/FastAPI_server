@@ -8,12 +8,14 @@ from sqlalchemy.orm import Session
 
 from db.database import SessionLocal, engine
 from accounts import models, crud, schemas
+from api.v1 import spotify_router
 
 
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
+app.include_router(spotify_router.router, prefix='/api/v1')
 
 # Dependency
 def get_db():
