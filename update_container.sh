@@ -1,6 +1,5 @@
 docker stop fastapi-server-container
 docker rm fastapi-server-container
-docker rmi fastapi-server-app
-docker build -t fastapi-server-app .
-docker run --hostname="0.0.0.0" -d --name fastapi-server-container -p 8000:8000 fastapi-server-app
+docker build -t bnbong/fastapi_server:latest .
+docker run --hostname="serverside-testing.bnbong.tk" -d --name fastapi-server-container -p 8000:8000 bnbong/fastapi_server:latest
 docker ps -a
