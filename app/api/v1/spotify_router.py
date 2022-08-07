@@ -52,5 +52,17 @@ async def get_token_from_spotify(Authorization: Union[str, None] = Header(defaul
         return response.json()
 
 @router.get('/spotify/refresh_token/')
-def get_refresh_token():
-    pass
+async def get_refresh_token_from_spotify(Authorization: Union[str, None] = Header(default=None), \
+    Content_Type: Union[str, None] = Header(default='application/x-www-form-urlencoded', convert_underscores=False) ,\
+    refresh_token: str = None):
+    
+    url = 'https://accounts.spotify.com/api/token'
+    request_data = {
+        'grant_type': 'refresh_token',
+        'refresh_token': refresh_token,
+        "client_id": os.getenv('SPOTIFY_CLIENT_ID'),
+        "client_secret": os.getenv('SPOTIFY_CLIENT_SECRET')
+    }
+    response =  requests.post(url, data=request_data)
+
+    return response.json()
