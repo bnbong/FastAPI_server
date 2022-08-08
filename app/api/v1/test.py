@@ -70,7 +70,6 @@ def test_could_get_refreshed_access_token_from_spotify():
     response data:
         {JSON object}
     """
-    # response = client.get('/api/v1/spotify/refresh_token')
+    response = client.get('/api/v1/spotify/refresh_token')
 
-    # assert 200 == response.status_code
-    pass
+    assert 200 == response.status_code
